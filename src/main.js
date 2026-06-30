@@ -1,15 +1,23 @@
 const API_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 
-document.getElementById('search-btn').addEventListener('click', () => {
-  const symbol = document.getElementById('ticker-input').value.trim().toUpperCase();
-  if (symbol) {
-    fetchStockData(symbol);
+document.addEventListener('DOMContentLoaded', () => {
+  
+  const searchBtn = document.getElementById('search-btn');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+      const symbol = document.getElementById('ticker-input').value.trim().toUpperCase();
+      if (symbol) {
+        fetchStockData(symbol);
+      }
+    });
   }
+
+  fetchStockData('AAPL');
 });
 
 function fetchStockData(ticker) {
   const displayArea = document.getElementById('stock-display');
-  
+  if (!displayArea) return;
   displayArea.innerHTML = `<p class="loading">Fetching market metrics for ${ticker}...</p>`;
 
   const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${API_KEY}`;
@@ -74,5 +82,3 @@ function fetchStockData(ticker) {
     displayArea.innerHTML = `<p class="error">Network error encountered: ${err.message}</p>`;
   });
 }
-
-fetchStockData('AAPL');

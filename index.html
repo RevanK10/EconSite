@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Stock Dashboard</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Market Watch Dashboard</h1>
+      
+      <div class="search-container">
+        <input type="text" id="ticker-input" placeholder="Enter Ticker (e.g. AAPL)" value="AAPL" />
+        <button id="search-btn">Get Live Data</button>
+      </div>
+
+      <div id="stock-display">
+        <p>Enter a symbol and click search to view real-time data.</p>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

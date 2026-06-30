@@ -15,7 +15,6 @@ function fetchStockData(ticker) {
   const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${API_KEY}`;
   const profileUrl = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${API_KEY}`;
 
-  // Execute both HTTP requests at the same time
   Promise.all([
     fetch(quoteUrl).then(res => res.json()),
     fetch(profileUrl).then(res => res.json())
@@ -26,7 +25,6 @@ function fetchStockData(ticker) {
       return;
     }
 
-    // Process decimal precision for financial numbers
     const currentPrice = quoteData.c.toFixed(2);
     const priceChange = quoteData.d.toFixed(2);
     const percentChange = quoteData.dp.toFixed(2);

@@ -1,7 +1,5 @@
-// 1. Import Secret Key from Environment Variable
 const API_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
 
-// 2. Set Up Click Event Listener
 document.getElementById('search-btn').addEventListener('click', () => {
   const symbol = document.getElementById('ticker-input').value.trim().toUpperCase();
   if (symbol) {
@@ -9,14 +7,11 @@ document.getElementById('search-btn').addEventListener('click', () => {
   }
 });
 
-// 3. Main Data Fetch Function
 function fetchStockData(ticker) {
   const displayArea = document.getElementById('stock-display');
   
-  // Show a visual loading message immediately
   displayArea.innerHTML = `<p class="loading">Fetching market metrics for ${ticker}...</p>`;
 
-  // Construct URLs for Quote Data (Prices) and Profile Data (Company Name/Logo)
   const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${API_KEY}`;
   const profileUrl = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${API_KEY}`;
 
@@ -26,18 +21,16 @@ function fetchStockData(ticker) {
     fetch(profileUrl).then(res => res.json())
   ])
   .then(([quoteData, profileData]) => {
-    // Error Handling: If ticker is invalid, Finnhub returns zeros or empty objects
     if (!quoteData.c || Object.keys(profileData).length === 0) {
       displayArea.innerHTML = `<p class="error">Ticker "${ticker}" not found. Try entering AAPL, TSLA, or MSFT.</p>`;
       return;
     }
 
     // Process decimal precision for financial numbers
-    const currentPrice = quoteData.c.toFixed(2);  // 'c' = Current Price
-    const priceChange = quoteData.d.toFixed(2);   // 'd' = Net Change
-    const percentChange = quoteData.dp.toFixed(2); // 'dp' = Percentage Change
+    const currentPrice = quoteData.c.toFixed(2);
+    const priceChange = quoteData.d.toFixed(2);
+    const percentChange = quoteData.dp.toFixed(2);
 
-    // Determine visual styling classes based on positive/negative market direction
     let movementClass = 'neutral';
     let directionalSign = '';
     
@@ -48,7 +41,6 @@ function fetchStockData(ticker) {
       movementClass = 'bearish';
     }
 
-    // 4. Inject Populated Components into index.html
     displayArea.innerHTML = `
       <div class="card">
         <div class="card-header">
@@ -85,5 +77,4 @@ function fetchStockData(ticker) {
   });
 }
 
-// Fetch Apple data automatically when the dashboard first boots up
 fetchStockData('AAPL');
